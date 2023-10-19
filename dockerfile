@@ -30,12 +30,12 @@ RUN chown -R www-data:www-data /var/www/html
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --working-dir="/var/www/html"
 
+RUN php artisan key:generate --force
+RUN php artisan migrate --force
+RUN php artisan up
+
 RUN npm install
 RUN npm run build
-
-RUN php artisan key:generate --force
-# RUN php artisan migrate --force
-RUN php artisan up
 
 WORKDIR /var/www/html/public
 
