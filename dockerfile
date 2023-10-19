@@ -32,12 +32,11 @@ RUN chown -R www-data:www-data /var/www/html
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --working-dir="/var/www/html"
 
-COPY fpm-entrypoint.sh /fpm-entrypoint.sh
-RUN chmod +x /fpm-entrypoint.sh
+RUN php artisan key:generate --force
 
 RUN npm install
-RUN npm run build
+#RUN npm run build
 
 EXPOSE 9000
 
-ENTRYPOINT ["/fpm-entrypoint.sh"]
+CMD ["php-fpm"]
