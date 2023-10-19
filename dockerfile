@@ -35,8 +35,7 @@ RUN composer install --working-dir="/var/www/html"
 RUN php artisan key:generate --force
 
 RUN npm install
-#RUN npm run build
 
 EXPOSE 9000
 
-ENTRYPOINT ["/bin/sh", "-c", "php artisan migrate --force && npm run build && php-fpm"]
+ENTRYPOINT ["/bin/sh", "-c", "npm run build && php-fpm"]
