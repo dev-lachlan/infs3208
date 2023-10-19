@@ -2,7 +2,7 @@ FROM php:8.2-fpm
 
 USER root
 
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 # unsure if this is needed
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x
@@ -26,16 +26,16 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 RUN rm -rf /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
 
-COPY ./infs3208 /var/www/html
+COPY . /var/www/html
 COPY ./local.ini /usr/local/etc/php/conf.d/local.ini
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN chmod +rwx /var/www
-RUN chmod -R 777 /var/www
+RUN chmod +rwx /var/www/html
+RUN chmod -R 777 /var/www/html
 
 RUN cp .env.production .env
 
-RUN composer install --working-dir="/var/www"
+RUN composer install --working-dir="/var/www/html"
 
 RUN npm install
 RUN npm run build
