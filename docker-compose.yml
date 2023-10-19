@@ -48,14 +48,11 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      PMA_ARBITUARY: 1
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: myapp
-      MYSQL_PASSWORD: secret
     restart: always
     ports:
-      - 8081:80
+      - 8082:80
+    networks:
+      - mynet
 
 networks:
   mynet:
