@@ -33,14 +33,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --working-dir="/var/www/html"
 
 RUN php artisan key:generate --force
-RUN php artisan migrate --force
 RUN php artisan up
 
 RUN npm install
 RUN npm run build
 
-WORKDIR /var/www/html/public
-
 EXPOSE 9000
 
-CMD ["php-fpm"]
+CMD ["php-fpm && php artisan migrate --force"]
