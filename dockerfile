@@ -35,7 +35,7 @@ RUN composer install --working-dir="/var/www/html"
 RUN php artisan key:generate --force
 
 RUN npm install
-#RUN npm run build
+RUN npm run build
 
 EXPOSE 9000
 

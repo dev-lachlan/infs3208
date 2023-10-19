@@ -62,11 +62,6 @@ services:
     command: php artisan migrate --force
     depends_on:
       - myphp
-  npmbuild:
-    image: myphp
-    command: npm run build
-    depends_on:
-      - myphp
 
 networks:
   mynet:
