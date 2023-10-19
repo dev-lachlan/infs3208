@@ -4,7 +4,9 @@ USER root
 
 WORKDIR /var/www/html
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install \
+    --no-install-recommends \
+    --no-install-suggests -qq -y \
     nodejs \
     npm \
     git \
