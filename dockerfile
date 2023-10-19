@@ -42,6 +42,8 @@ RUN php artisan key:generate --force
 #RUN php artisan migrate --force
 RUN php artisan up
 
+WORKDIR /var/www/html/public
+
 EXPOSE 9000
 
 CMD ["php-fpm"]
