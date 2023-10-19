@@ -4,11 +4,6 @@ USER root
 
 WORKDIR /var/www/html
 
-# unsure if this is needed
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 RUN apt-get update && apt-get install -y \
     nodejs \
     npm \
@@ -30,16 +25,16 @@ COPY . /var/www/html
 COPY ./local.ini /usr/local/etc/php/conf.d/local.ini
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN chmod +rwx /var/www/html
-RUN chmod -R 777 /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --working-dir="/var/www/html"
 
 RUN npm install
 RUN npm run build
 
 RUN php artisan key:generate --force
-#RUN php artisan migrate --force
+# RUN php artisan migrate --force
 RUN php artisan up
 
 WORKDIR /var/www/html/public
