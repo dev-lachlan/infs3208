@@ -56,12 +56,6 @@ services:
     restart: always
     ports:
       - 8081:80
-  
-  migration:
-    image: myphp-image
-    command: php artisan migrate --force
-    depends_on:
-      - myphp
 
 networks:
   mynet:

@@ -39,4 +39,4 @@ RUN npm run build
 
 EXPOSE 9000
 
-CMD ["php-fpm"]
+ENTRYPOINT ["/bin/sh", "-c", "php artisan migrate --force && php-fpm"]
