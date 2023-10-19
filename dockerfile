@@ -38,4 +38,4 @@ RUN npm install
 
 EXPOSE 9000
 
-ENTRYPOINT ["/bin/sh", "-c", "npm run build && php-fpm"]
+ENTRYPOINT ["/bin/sh", "-c", "php artisan migrate --force && npm run build && php-fpm"]
