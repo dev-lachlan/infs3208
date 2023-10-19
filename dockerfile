@@ -33,8 +33,6 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 RUN chmod +rwx /var/www/html
 RUN chmod -R 777 /var/www/html
 
-RUN cp .env.production .env
-
 RUN composer install --working-dir="/var/www/html"
 
 RUN npm install
