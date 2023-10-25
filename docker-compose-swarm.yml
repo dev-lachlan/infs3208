@@ -1,0 +1,79 @@
+version: "3.3"
+
+services:
+  mysql:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: myapp
+      MYSQL_PASSWORD: secret
+    networks:
+      - mynet
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 3306
+        published: 3306
+
+  myphp:
+    image: your-php-image
+    depends_on:
+      - mysql
+    networks:
+      - mynet
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 9000
+        published: 9000
+    volumes:
+      - type: bind
+        source: ./public
+        target: /var/www/html/public
+
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - myphp
+    networks:
+      - mynet
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 80
+        published: 8080
+    volumes:
+      - type: bind
+        source: ./public
+        target: /var/www/html/public
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+
+  phpMyAdmin:
+    image: phpmyadmin:latest
+    depends_on:
+      - mysql
+      - myphp
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    networks:
+      - mynet
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 80
+        published: 8082
+
+networks:
+  mynet:
